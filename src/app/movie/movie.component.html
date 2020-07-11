@@ -1,0 +1,86 @@
+<form>
+  <div class="form-group">
+    <label>Movie Name</label>
+    <input
+      class="form-control"
+      type="text"
+      [(ngModel)]="movie.name"
+      placeholder="name"
+      name="Enter movie name"
+      [readonly]="movie._id"
+    />
+  </div>
+
+  <div class="form-group">
+    <label>Director</label>
+    <input
+      class="form-control"
+      type="text"
+      [(ngModel)]="movie.director"
+      placeholder="Enter Director"
+      name="director"
+    />
+  </div>
+  <div class="form-group">
+    <label>Genre</label
+    ><button class="btn btn-outline-primary" (click)="openModal(genreModal)">Create Genre</button>
+    <ng-multiselect-dropdown
+      [placeholder]="'Select Genre'"
+      name="genre"
+      [data]="genres"
+      [(ngModel)]="movie.genre"
+      [settings]="dropdownSettings"
+    >
+    </ng-multiselect-dropdown>
+  </div>
+  <div class="form-group">
+    <label>Popularity</label>
+    <input
+      class="form-control"
+      type="number"
+      [(ngModel)]="movie['99popularity']"
+      placeholder="Enter Popularity"
+      name="popularity"
+    />
+  </div>
+  <div class="form-group">
+    <label>IMDB Score</label>
+    <input
+      class="form-control"
+      type="number"
+      [(ngModel)]="movie.imdb_score"
+      placeholder="Enter IMDB Score"
+      name="imdb_score"
+    />
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+  <button class="btn btn-primary" (click)="goBack()">Go back</button>
+</form>
+
+<ng-template #genreModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Create Genre</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label>Genre</label>
+        <input
+          class="form-control"
+          type="text"
+          #genreInput
+          placeholder="Enter Genre"
+          name="director"
+        />
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close(genreInput.value)">
+      Save
+    </button>
+  </div>
+</ng-template>

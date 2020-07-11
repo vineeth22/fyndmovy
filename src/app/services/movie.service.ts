@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class MovieService {
   constructor(private http: HttpClient) {}
-  private moviesUrl = 'http://localhost:3000/movies';
+  private moviesUrl = 'http://localhost:3000/api/movies';
 
   getMovies() {
     return this.http.get(this.moviesUrl + '/getAllMovies');

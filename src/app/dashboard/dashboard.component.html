@@ -30,18 +30,30 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">#</th>
       <th scope="col">Name</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
+      <th scope="col">Director</th>
+      <th scope="col">Genre</th>
+      <th scope="col">Popularity</th>
+      <th scope="col">IMDB Score</th>
+      <th scope="col">
+        <button type="button" class="btn btn-light" routerLink="/newmovie">
+          Add New
+        </button>
+      </th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let movie of movies | movieFilter: genres:sortBy:triggerGenreChange">
-      <th scope="row">1</th>
       <td>{{ movie.name }}</td>
+      <td>{{ movie.director }}</td>
+      <td>{{ movie.genre.join(', ') }}</td>
       <td>{{ movie['99popularity'] }}</td>
-      <td>@mdo</td>
+      <td>{{ movie.imdb_score }}</td>
+      <td>
+        <button type="button" class="btn btn-light" routerLink="/movie/{{ movie._id }}">
+          Edit
+        </button>
+      </td>
     </tr>
   </tbody>
 </table>

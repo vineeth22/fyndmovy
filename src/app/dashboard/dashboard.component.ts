@@ -17,17 +17,22 @@ export class DashboardComponent implements OnInit {
   triggerGenreChange = true;
 
   ngOnInit() {
+    this.getMovies();
+    this.getGenres();
+  }
+  getMovies(): void {
     this.movieService.getMovies().subscribe((movies) => {
       this.movies = movies;
       this.moviesCopy = movies;
     });
+  }
+  getGenres(): void {
     this.movieService.getGenres().subscribe((genreList: [{ name: string }]) => {
       genreList.forEach((genre) => {
         this.genres[genre.name] = false;
       });
     });
   }
-
   onSearch(value) {
     value = value.trim();
     if (value === '') {

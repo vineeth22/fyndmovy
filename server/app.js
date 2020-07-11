@@ -23,15 +23,16 @@ let db;
   }
 })();
 
-app.use(express.static(path.join(__dirname, '../dist/FyndMovy')));
-app.get('/movies/getAllMovies', async (req, res) => {
+app.get('/api/movies/getAllMovies', async (req, res) => {
   const movies = await movie.readAllMovies(db);
   res.send(movies);
 });
 
-app.get('/movies/getAllGenres', async (req, res) => {
+app.get('/api/movies/getAllGenres', async (req, res) => {
   const genres = await movie.readAllGenres(db);
   res.send(genres);
 });
+
+app.use(express.static(path.join(__dirname, '../dist/FyndMovy')));
 
 app.listen(port, () => console.log(`App listening at http://localhost:${port}`));
