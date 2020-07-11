@@ -1,58 +1,47 @@
 <div class="input-group mb-3">
-    <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username"
-        aria-describedby="button-addon2" />
-    <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
-    </div>
-    <div ngbDropdown class="d-inline-block">
-        <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
-            Toggle dropdown
-        </button>
-        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button ngbDropdownItem>Action - 1</button>
-            <button ngbDropdownItem>Another Action</button>
-            <button ngbDropdownItem>Something else is here</button>
-        </div>
-    </div>
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Search movie"
+    aria-label="Search movie"
+    aria-describedby="button-addon2"
+    #search
+  />
+  <div class="input-group-append">
+    <button
+      class="btn btn-outline-secondary"
+      type="button"
+      id="button-addon2"
+      (click)="onSearch(search.value)"
+    >
+      Search
+    </button>
+  </div>
+  <label>Sort by</label>
+  <select [(ngModel)]="sortBy" class="form-control" id="exampleFormControlSelect1">
+    <option *ngFor="let sort of soryByList">{{ sort }}</option>
+  </select>
 </div>
-<div class="btn-group btn-group-toggle">
-    <label class="btn-primary" ngbButtonLabel>
-        <input type="checkbox" ngbButton [(ngModel)]="model.left" /> Left (pre-checked)
-    </label>
-    <label class="btn-primary" ngbButtonLabel>
-        <input type="checkbox" ngbButton [(ngModel)]="model.middle" /> Middle
-    </label>
-    <label class="btn-primary" ngbButtonLabel>
-        <input type="checkbox" ngbButton [(ngModel)]="model.right" /> Right
-    </label>
+<div class="btn-group btn-group-toggle" (change)="triggerGenreChange = !triggerGenreChange">
+  <label class="btn-primary" ngbButtonLabel *ngFor="let genre of genres | keyvalue">
+    <input type="checkbox" ngbButton [(ngModel)]="genres[genre.key]" /> {{ genre.key }}
+  </label>
 </div>
 <table class="table">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-        </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let movie of movies | movieFilter: genres:sortBy:triggerGenreChange">
+      <th scope="row">1</th>
+      <td>{{ movie.name }}</td>
+      <td>{{ movie['99popularity'] }}</td>
+      <td>@mdo</td>
+    </tr>
+  </tbody>
 </table>

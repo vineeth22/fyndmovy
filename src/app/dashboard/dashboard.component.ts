@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { MovieService } from '../services/movie.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,13 +7,37 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-  constructor() {}
+  constructor(private movieService: MovieService, private cd: ChangeDetectorRef) {}
 
-  ngOnInit(): void {}
+  genres = {};
+  movies;
+  moviesCopy;
+  sortBy = 'name';
+  soryByList = ['name', 'director', '99popularity'];
+  triggerGenreChange = true;
 
-  model = {
-    left: true,
-    middle: false,
-    right: false,
-  };
+  ngOnInit() {
+    this.movieService.getMovies().subscribe((movies) => {
+      this.movies = movies;
+      this.moviesCopy = movies;
+    });
+    this.movieService.getGenres().subscribe((genreList: [{ name: string }]) => {
+      genreList.forEach((genre) => {
+        this.genres[genre.name] = false;
+      });
+    });
+  }
+
+  onSearch(value) {
+    value = value.trim();
+    if (value === '') {
+      this.movies = this.moviesCopy;
+      return;
+    }
+    this.movies = this.moviesCopy.filter(
+      (movie) =>
+        movie.name.toLowerCase() === value.toLowerCase() ||
+        movie.director.toLowerCase() === value.toLowerCase()
+    );
+  }
 }
