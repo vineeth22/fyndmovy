@@ -22,8 +22,9 @@
     />
   </div>
   <div class="form-group">
-    <label>Genre</label
-    ><button class="btn btn-outline-primary" (click)="openModal(genreModal)">Create Genre</button>
+    <label>Genre</label> 
+    &nbsp;
+    <button class="btn btn-outline-secondary" (click)="openModal(genreModal)">Create Genre</button>
     <ng-multiselect-dropdown
       [placeholder]="'Select Genre'"
       name="genre"
@@ -53,8 +54,9 @@
       name="imdb_score"
     />
   </div>
-  <button type="submit" class="btn btn-primary" (click)="submit()">Submit</button>
-  <button class="btn btn-primary" (click)="goBack()">Go back</button>
+  <button type="submit" class="btn btn-outline-secondary" (click)="submit()">Submit</button>
+&nbsp;
+  <button class="btn btn-outline-secondary" (click)="goBack()">Go back</button>
 </form>
 
 <ng-template #genreModal let-modal>
@@ -79,7 +81,7 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close(genreInput.value)">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.close(genreInput.value)">
       Save
     </button>
   </div>

@@ -17,13 +17,13 @@
       Search
     </button>
   </div>
-  <label>Sort by</label>
+  <label style="margin-top: .5rem; margin-left: .5rem; margin-right: .3rem;">Sort by</label>
   <select [(ngModel)]="sortBy" class="form-control" id="exampleFormControlSelect1">
     <option *ngFor="let sort of soryByList">{{ sort }}</option>
   </select>
 </div>
-<div class="btn-group btn-group-toggle" (change)="triggerGenreChange = !triggerGenreChange">
-  <label class="btn-primary" ngbButtonLabel *ngFor="let genre of genres | keyvalue">
+<div style="display: block" class="btn-group btn-group-toggle" (change)="triggerGenreChange = !triggerGenreChange">
+  <label class="btn-outline-secondary" ngbButtonLabel *ngFor="let genre of genres | keyvalue">
     <input type="checkbox" ngbButton [(ngModel)]="genres[genre.key]" /> {{ genre.key }}
   </label>
 </div>
@@ -36,10 +36,10 @@
       <th scope="col">99Popularity</th>
       <th scope="col">IMDB Score</th>
       <th scope="col" *ngIf="isLoggedIn">
-        <button type="button" class="btn btn-light" routerLink="/newmovie">
+        <button type="button" class="btn btn-outline-secondary" routerLink="/newmovie">
           Add Movie
         </button>
-        <button type="button" class="btn btn-light" routerLink="/logs">
+        <button type="button" class="btn btn-outline-secondary" routerLink="/logs">
           Logs
         </button>
       </th>
@@ -53,10 +53,10 @@
       <td>{{ movie['99popularity'] }}</td>
       <td>{{ movie.imdb_score }}</td>
       <td *ngIf="isLoggedIn">
-        <button type="button" class="btn btn-light" routerLink="/movie/{{ movie._id }}">
+        <button type="button" class="btn btn-outline-secondary" routerLink="/movie/{{ movie._id }}">
           Edit
         </button>
-        <button type="button" class="btn btn-light" (click)="deleteMovie(movie._id)">
+        <button type="button" class="btn btn-outline-secondary" (click)="deleteMovie(movie._id)">
           Delele
         </button>
       </td>

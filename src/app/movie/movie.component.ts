@@ -86,8 +86,10 @@ export class MovieComponent implements OnInit {
           '99popularity': this.movie['99popularity'],
           imdb_score: this.movie.imdb_score,
         })
-        .subscribe((response) => {
-          console.log(response);
+        .subscribe((response: { message }) => {
+          if (response.message === 'Success') {
+            this.goBack();
+          }
         });
     } else {
       this.movieService
@@ -98,8 +100,10 @@ export class MovieComponent implements OnInit {
           '99popularity': this.movie['99popularity'],
           imdb_score: this.movie.imdb_score,
         })
-        .subscribe((response) => {
-          console.log(response);
+        .subscribe((response: { message }) => {
+          if (response.message === 'Success') {
+            this.goBack();
+          }
         });
     }
   }
@@ -115,8 +119,10 @@ export class MovieComponent implements OnInit {
       return;
     }
     genre = genre.trim();
-    this.movieService.addGenre(genre).subscribe((response) => {
-      console.log(response);
+    this.movieService.addGenre(genre).subscribe((response: {message}) => {
+      if(response.message === 'Success'){
+        this.getGenres();
+      };
     });
   }
   openModal(content) {
