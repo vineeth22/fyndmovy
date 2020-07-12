@@ -7,15 +7,6 @@ const authUser = async (db, user) => {
   return { isLoggedIn: match };
 };
 
-const authHandler = (req, res, next) => {
-  if (req.session.user) {
-    next();
-  } else {
-    res.send('User not authenticated');
-  }
-};
-
 module.exports = {
   authUser,
-  authHandler,
 };

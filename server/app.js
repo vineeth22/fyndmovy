@@ -64,6 +64,7 @@ app.get('/api/auth/isLoggedIn', (req, res) => {
 
 app.post('/api/auth/login', async (req, res) => {
   const response = await auth.authUser(db, req.body);
+  if (response.isLoggedIn) req.session.user = req.body.username;
   res.send(response);
 });
 
@@ -72,22 +73,37 @@ app.get('/api/auth/logout', (req, res) => {
   res.send({ isLoggedIn: false });
 });
 
-app.post('/api/movies/addMovie', auth.authHandler, async (req, res) => {
+const authHandler = (req, res, next) => {
+  if (req.session.user) {
+    db.collection('logs').insertOne({
+      user: req.session.user,
+      route: req.route.path,
+      params: req.params,
+      body: req.body,
+      createdAt: new Date(),
+    });
+    next();
+  } else {
+    res.send('User not authenticated');
+  }
+};
+
+app.post('/api/movies/addMovie', authHandler, async (req, res) => {
   const response = await movie.addMovie(db, req.body);
   res.send(response);
 });
 
-app.post('/api/movies/updateMovie/:id', auth.authHandler, async (req, res) => {
+app.post('/api/movies/updateMovie/:id', authHandler, async (req, res) => {
   const response = await movie.updateMovie(db, req.params.id, req.body);
   res.send(response);
 });
 
-app.post('/api/movies/deleteMovie', auth.authHandler, async (req, res) => {
+app.post('/api/movies/deleteMovie', authHandler, async (req, res) => {
   const response = await movie.deleteMovie(db, req.body.id);
   res.send(response);
 });
 
-app.post('/api/movies/addGenre', auth.authHandler, async (req, res) => {
+app.post('/api/movies/addGenre', authHandler, async (req, res) => {
   const response = await movie.addGenre(db, req.body);
   res.send(response);
 });
