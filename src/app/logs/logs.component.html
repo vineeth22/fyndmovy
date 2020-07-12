@@ -1,0 +1,20 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Created At</th>
+      <th scope="col">User</th>
+      <th scope="col">Route</th>
+      <th scope="col">Params</th>
+      <th scope="col">Body</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let log of logs">
+      <td>{{ log.createdAt }}</td>
+      <td>{{ log.user }}</td>
+      <td>{{ log.route }}</td>
+      <td>{{ log.params | json }}</td>
+      <td>{{ log.body | json }}</td>
+    </tr>
+  </tbody>
+</table>

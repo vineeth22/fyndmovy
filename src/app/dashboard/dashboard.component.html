@@ -33,11 +33,14 @@
       <th scope="col">Name</th>
       <th scope="col">Director</th>
       <th scope="col">Genre</th>
-      <th scope="col">Popularity</th>
+      <th scope="col">99Popularity</th>
       <th scope="col">IMDB Score</th>
       <th scope="col" *ngIf="isLoggedIn">
         <button type="button" class="btn btn-light" routerLink="/newmovie">
-          Add New
+          Add Movie
+        </button>
+        <button type="button" class="btn btn-light" routerLink="/logs">
+          Logs
         </button>
       </th>
     </tr>

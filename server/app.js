@@ -75,13 +75,14 @@ app.get('/api/auth/logout', (req, res) => {
 
 const authHandler = (req, res, next) => {
   if (req.session.user) {
-    db.collection('logs').insertOne({
-      user: req.session.user,
-      route: req.route.path,
-      params: req.params,
-      body: req.body,
-      createdAt: new Date(),
-    });
+    if (req.route.path !== '/api/auth/logs')
+      db.collection('logs').insertOne({
+        user: req.session.user,
+        route: req.route.path,
+        params: req.params,
+        body: req.body,
+        createdAt: new Date(),
+      });
     next();
   } else {
     res.send('User not authenticated');
@@ -105,6 +106,11 @@ app.post('/api/movies/deleteMovie', authHandler, async (req, res) => {
 
 app.post('/api/movies/addGenre', authHandler, async (req, res) => {
   const response = await movie.addGenre(db, req.body);
+  res.send(response);
+});
+
+app.get('/api/auth/logs', authHandler, async (req, res) => {
+  const response = await db.collection('logs').find().sort({ createdAt: -1 }).toArray();
   res.send(response);
 });
 

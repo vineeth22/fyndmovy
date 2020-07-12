@@ -25,4 +25,7 @@ export class AuthService {
       this.isLoggedIn.next(response.isLoggedIn);
     });
   }
+  getLogs() {
+    return this.http.get(this.authUrl + '/logs');
+  }
 }

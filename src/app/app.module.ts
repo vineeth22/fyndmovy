@@ -10,9 +10,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MovieFilterPipe } from './pipes/movie-filter.pipe';
 import { MovieComponent } from './movie/movie.component';
+import { LogsComponent } from './logs/logs.component';
 
 @NgModule({
-  declarations: [AppComponent, DashboardComponent, MovieFilterPipe, MovieComponent],
+  declarations: [AppComponent, DashboardComponent, MovieFilterPipe, MovieComponent, LogsComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
