@@ -11,7 +11,7 @@ export class AuthService {
     });
   }
 
-  private authUrl = 'http://localhost:3000/api/auth';
+  private authUrl = '/api/auth';
   public isLoggedIn = new BehaviorSubject(false);
 
   login(user) {

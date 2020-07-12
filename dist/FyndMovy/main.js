@@ -899,7 +899,7 @@ __webpack_require__.r(__webpack_exports__);
 class AuthService {
     constructor(http) {
         this.http = http;
-        this.authUrl = 'http://localhost:3000/api/auth';
+        this.authUrl = '/api/auth';
         this.isLoggedIn = new rxjs__WEBPACK_IMPORTED_MODULE_1__["BehaviorSubject"](false);
         this.http.get(this.authUrl + '/isLoggedIn').subscribe((response) => {
             this.isLoggedIn.next(response.isLoggedIn);
@@ -949,7 +949,7 @@ __webpack_require__.r(__webpack_exports__);
 class MovieService {
     constructor(http) {
         this.http = http;
-        this.moviesUrl = 'http://localhost:3000/api/movies';
+        this.moviesUrl = '/api/movies';
     }
     getMovies() {
         return this.http.get(this.moviesUrl + '/getAllMovies');
