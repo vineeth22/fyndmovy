@@ -23,6 +23,9 @@ let db;
   }
 })();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.get('/api/movies/getAllMovies', async (req, res) => {
   const movies = await movie.readAllMovies(db);
   res.send(movies);
@@ -31,6 +34,26 @@ app.get('/api/movies/getAllMovies', async (req, res) => {
 app.get('/api/movies/getAllGenres', async (req, res) => {
   const genres = await movie.readAllGenres(db);
   res.send(genres);
+});
+
+app.get('/api/movies/getMovie/:id', async (req, res) => {
+  const movieData = await movie.readMovie(db, req.params.id);
+  res.send(movieData);
+});
+
+app.post('/api/movies/addMovie', async (req, res) => {
+  const response = await movie.addMovie(db, req.body);
+  res.send(response);
+});
+
+app.post('/api/movies/updateMovie/:id', async (req, res) => {
+  const response = await movie.updateMovie(db, req.params.id, req.body);
+  res.send(response);
+});
+
+app.post('/api/movies/addGenre', async (req, res) => {
+  const response = await movie.addGenre(db, req.body);
+  res.send(response);
 });
 
 app.use(express.static(path.join(__dirname, '../dist/FyndMovy')));

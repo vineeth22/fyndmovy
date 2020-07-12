@@ -21,35 +21,108 @@ export class MovieComponent implements OnInit {
     itemsShowLimit: 5,
   };
   movie = {
-    _id: '5f098de1825dc439d04ebef2',
-    '99popularity': 83,
-    director: 'Victor Fleming',
-    genre: ['Adventure', 'Family', 'Fantasy', 'Musical'],
-    imdb_score: 8.3,
-    name: 'The Wizard of Oz',
+    _id: null,
+    name: null,
+    director: null,
+    genre: [],
+    '99popularity': null,
+    imdb_score: null,
   };
+  addMovie: boolean;
   genres;
+
   ngOnInit(): void {
     this.getMovie();
     this.getGenres();
   }
   getMovie(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    // this.movieService.getMovie(id).subscribe((movie) => (this.movie = movie));
+    if (!id) {
+      this.addMovie = true;
+      return;
+    }
+    this.movieService
+      .getMovie(id)
+      .subscribe(
+        (movie: {
+          _id: string;
+          name: string;
+          director: string;
+          genre: [];
+          '99popularity': number;
+          imdb_score: number;
+        }) => (this.movie = movie)
+      );
   }
   getGenres(): void {
     this.movieService.getGenres().subscribe((genreList: [{ name: string }]) => {
       this.genres = genreList.map((genre) => genre.name);
     });
   }
+  submit(): void {
+    const stringInvalid = (str) => {
+      return !str || typeof str !== 'string' || str.trim().length === 0;
+    };
+    if (
+      stringInvalid(this.movie.name) ||
+      stringInvalid(this.movie.director) ||
+      this.movie.genre.length === 0 ||
+      typeof this.movie.imdb_score !== 'number' ||
+      typeof this.movie['99popularity'] !== 'number'
+    ) {
+      console.log('Invalid Data');
+      return;
+    }
+    this.movie.name = this.movie.name.trim();
+    this.movie.director = this.movie.director.trim();
+    if (this.addMovie) {
+      this.movieService
+        .addMovie({
+          name: this.movie.name,
+          director: this.movie.director,
+          genre: this.movie.genre,
+          '99popularity': this.movie['99popularity'],
+          imdb_score: this.movie.imdb_score,
+        })
+        .subscribe((response) => {
+          console.log(response);
+        });
+    } else {
+      this.movieService
+        .updateMovie(this.movie._id, {
+          name: this.movie.name,
+          director: this.movie.director,
+          genre: this.movie.genre,
+          '99popularity': this.movie['99popularity'],
+          imdb_score: this.movie.imdb_score,
+        })
+        .subscribe((response) => {
+          console.log(response);
+        });
+    }
+  }
   goBack(): void {
     this.location.back();
   }
+  addGenre(genre) {
+    const stringInvalid = (str) => {
+      return !str || typeof str !== 'string' || str.trim().length === 0;
+    };
+    if (stringInvalid(genre)) {
+      console.log('Invalid Data');
+      return;
+    }
+    genre = genre.trim();
+    this.movieService.addGenre(genre).subscribe((response) => {
+      console.log(response);
+    });
+  }
   openModal(content) {
-    this.modalService
-      .open(content, { ariaLabelledBy: 'modal-basic-title' })
-      .result.then((result) => {
-        console.log(result);
-      }, () => {});
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+      (result) => {
+        this.addGenre(result);
+      },
+      () => {}
+    );
   }
 }

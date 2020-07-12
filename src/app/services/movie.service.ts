@@ -15,4 +15,17 @@ export class MovieService {
   getGenres() {
     return this.http.get(this.moviesUrl + '/getAllGenres');
   }
+
+  getMovie(id) {
+    return this.http.get(this.moviesUrl + '/getMovie/' + id);
+  }
+  addMovie(movie) {
+    return this.http.post(this.moviesUrl + '/addMovie', movie);
+  }
+  updateMovie(id, movie) {
+    return this.http.post(this.moviesUrl + '/updateMovie/' + id, movie);
+  }
+  addGenre(genre) {
+    return this.http.post(this.moviesUrl + '/addGenre', { name: genre });
+  }
 }
