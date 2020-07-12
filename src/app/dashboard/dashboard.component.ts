@@ -1,5 +1,6 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MovieService } from '../services/movie.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,8 +8,12 @@ import { MovieService } from '../services/movie.service';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-  constructor(private movieService: MovieService, private cd: ChangeDetectorRef) {}
-
+  constructor(private movieService: MovieService, private authService: AuthService) {
+    this.authService.isLoggedIn.subscribe((value) => {
+      this.isLoggedIn = value;
+    });
+  }
+  isLoggedIn = false;
   genres = {};
   movies;
   moviesCopy;
@@ -44,5 +49,10 @@ export class DashboardComponent implements OnInit {
         movie.name.toLowerCase() === value.toLowerCase() ||
         movie.director.toLowerCase() === value.toLowerCase()
     );
+  }
+  deleteMovie(id) {
+    this.movieService.deleteMovie(id).subscribe((response: { message }) => {
+      if (response.message === 'Success') this.getMovies();
+    });
   }
 }

@@ -10,5 +10,51 @@
     />
     FyndMovy
   </a>
+  <button
+    type="button"
+    class="btn btn-light"
+    (click)="isLoggedIn ? logout() : openModal(loginModal)"
+  >
+    {{ isLoggedIn ? 'Logout' : 'Login' }}
+  </button>
+  <!-- <button type="button" class="btn btn-light" (click)="logout()">
+    Logout
+  </button> -->
 </nav>
 <router-outlet></router-outlet>
+
+<ng-template #loginModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Login</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label>Username</label>
+        <input
+          class="form-control"
+          type="text"
+          #username
+          placeholder="Enter Username"
+          name="username"
+        />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" class="form-control" #password placeholder="Password" />
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="modal.close({ username: username.value, password: password.value })"
+    >
+      Login
+    </button>
+  </div>
+</ng-template>

@@ -1,5 +1,8 @@
 const { ObjectId } = require('mongodb');
 
+const respMessage = (message) => {
+  return { message };
+};
 const stringInvalid = (str) => {
   return !str || typeof str !== 'string' || str.trim().length === 0;
 };
@@ -46,7 +49,7 @@ const addMovie = async (db, movie) => {
       typeof movie.imdb_score !== 'number' ||
       typeof movie['99popularity'] !== 'number'
     )
-      return 'Invalid Data';
+      return respMessage('Invalid Data');
 
     const data = {
       name: movie.name.trim(),
@@ -60,14 +63,14 @@ const addMovie = async (db, movie) => {
       .collection('genre')
       .find({ name: { $in: data.genre } })
       .toArray();
-    if (genres.length !== data.genre.length) return 'Error: Invalid genre';
+    if (genres.length !== data.genre.length) return respMessage('Error: Invalid genre');
 
     const col = db.collection('imdb');
     const r = await col.insertOne(data);
-    return r.insertedCount === 1 ? 'Success' : 'Error';
+    return r.insertedCount === 1 ? respMessage('Success') : respMessage('Error');
   } catch (err) {
     console.log(err.stack);
-    return 'Error';
+    return respMessage('Error');
   }
 };
 
@@ -80,7 +83,7 @@ const updateMovie = async (db, id, movie) => {
       typeof movie.imdb_score !== 'number' ||
       typeof movie['99popularity'] !== 'number'
     )
-      return 'Invalid Data';
+      return respMessage('Invalid Data');
 
     const data = {
       name: movie.name.trim(),
@@ -91,13 +94,13 @@ const updateMovie = async (db, id, movie) => {
     };
 
     const prevData = await readMovie(db, id);
-    if (prevData.name !== data.name) return 'Error: Movie name cannot be changed';
+    if (prevData.name !== data.name) return respMessage('Error: Movie name cannot be changed');
 
     const genres = await db
       .collection('genre')
       .find({ name: { $in: data.genre } })
       .toArray();
-    if (genres.length !== data.genre.length) return 'Error: Invalid genre';
+    if (genres.length !== data.genre.length) return respMessage('Error: Invalid genre');
 
     const col = db.collection('imdb');
     const r = await col.updateOne(
@@ -106,28 +109,39 @@ const updateMovie = async (db, id, movie) => {
         $set: data,
       }
     );
-    return r.matchedCount === 1 ? 'Success' : 'Error';
+    return r.matchedCount === 1 ? respMessage('Success') : respMessage('Error');
   } catch (err) {
     console.log(err.stack);
-    return 'Error';
+    return respMessage('Error');
+  }
+};
+
+const deleteMovie = async (db, id) => {
+  try {
+    const col = db.collection('imdb');
+    const r = await col.deleteOne({ _id: new ObjectId(id) });
+    return r.deletedCount === 1 ? respMessage('Success') : respMessage('Error');
+  } catch (err) {
+    console.log(err.stack);
+    return respMessage('Error');
   }
 };
 
 const addGenre = async (db, genre) => {
   try {
-    if (stringInvalid(genre.name)) return 'Invalid Data';
+    if (stringInvalid(genre.name)) return respMessage('Invalid Data');
     const data = {
       name: genre.name.trim(),
     };
 
     const prevGenre = await db.collection('genre').find(data).toArray();
-    if (prevGenre.length !== 0) return 'Error: Genre already exists';
+    if (prevGenre.length !== 0) return respMessage('Error: Genre already exists');
 
     const r = await db.collection('genre').insertOne(data);
-    return r.insertedCount === 1 ? 'Success' : 'Error';
+    return r.insertedCount === 1 ? respMessage('Success') : respMessage('Error');
   } catch (err) {
     console.log(err.stack);
-    return 'Error';
+    return respMessage('Error');
   }
 };
 
@@ -138,4 +152,5 @@ module.exports = {
   addMovie,
   updateMovie,
   addGenre,
+  deleteMovie,
 };

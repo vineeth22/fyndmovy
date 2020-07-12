@@ -35,7 +35,7 @@
       <th scope="col">Genre</th>
       <th scope="col">Popularity</th>
       <th scope="col">IMDB Score</th>
-      <th scope="col">
+      <th scope="col" *ngIf="isLoggedIn">
         <button type="button" class="btn btn-light" routerLink="/newmovie">
           Add New
         </button>
@@ -49,9 +49,12 @@
       <td>{{ movie.genre.join(', ') }}</td>
       <td>{{ movie['99popularity'] }}</td>
       <td>{{ movie.imdb_score }}</td>
-      <td>
+      <td *ngIf="isLoggedIn">
         <button type="button" class="btn btn-light" routerLink="/movie/{{ movie._id }}">
           Edit
+        </button>
+        <button type="button" class="btn btn-light" (click)="deleteMovie(movie._id)">
+          Delele
         </button>
       </td>
     </tr>

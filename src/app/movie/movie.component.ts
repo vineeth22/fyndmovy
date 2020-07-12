@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { MovieService } from '../services/movie.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-movie',
@@ -14,7 +15,8 @@ export class MovieComponent implements OnInit {
     private route: ActivatedRoute,
     private movieService: MovieService,
     private location: Location,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private authService: AuthService
   ) {}
 
   dropdownSettings = {

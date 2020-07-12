@@ -25,6 +25,9 @@ export class MovieService {
   updateMovie(id, movie) {
     return this.http.post(this.moviesUrl + '/updateMovie/' + id, movie);
   }
+  deleteMovie(id) {
+    return this.http.post(this.moviesUrl + '/deleteMovie', { id });
+  }
   addGenre(genre) {
     return this.http.post(this.moviesUrl + '/addGenre', { name: genre });
   }
