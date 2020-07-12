@@ -119,10 +119,10 @@ export class MovieComponent implements OnInit {
       return;
     }
     genre = genre.trim();
-    this.movieService.addGenre(genre).subscribe((response: {message}) => {
-      if(response.message === 'Success'){
+    this.movieService.addGenre(genre).subscribe((response: { message }) => {
+      if (response.message === 'Success') {
         this.getGenres();
-      };
+      }
     });
   }
   openModal(content) {

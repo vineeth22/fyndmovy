@@ -17,12 +17,16 @@
       Search
     </button>
   </div>
-  <label style="margin-top: .5rem; margin-left: .5rem; margin-right: .3rem;">Sort by</label>
+  <label style="margin-top: 0.5rem; margin-left: 0.5rem; margin-right: 0.3rem;">Sort by</label>
   <select [(ngModel)]="sortBy" class="form-control" id="exampleFormControlSelect1">
     <option *ngFor="let sort of soryByList">{{ sort }}</option>
   </select>
 </div>
-<div style="display: block" class="btn-group btn-group-toggle" (change)="triggerGenreChange = !triggerGenreChange">
+<div
+  style="display: block;"
+  class="btn-group btn-group-toggle"
+  (change)="triggerGenreChange = !triggerGenreChange"
+>
   <label class="btn-outline-secondary" ngbButtonLabel *ngFor="let genre of genres | keyvalue">
     <input type="checkbox" ngbButton [(ngModel)]="genres[genre.key]" /> {{ genre.key }}
   </label>
